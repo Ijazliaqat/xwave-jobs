@@ -32,6 +32,7 @@ import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 // Custom imports
 import HeaderLogo from "../../assets/header-logo.svg";
 import { sideBar } from "./helper/data";
+import { Link } from "react-router-dom";
 
 const DashboardDrawer = (props) => {
   const drawerWidth = 280;
@@ -40,7 +41,7 @@ const DashboardDrawer = (props) => {
   const [isClosing, setIsClosing] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const [expanded, setExpanded] = useState("panel1");
+  const [expanded, setExpanded] = useState("");
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -74,7 +75,7 @@ const DashboardDrawer = (props) => {
           return (
             <>
               <Accordion
-                sx={{ boxShadow: 'none',border: '1px solid #E6E6E6' }}
+                sx={{ boxShadow: "none", border: "1px solid #E6E6E6" }}
                 className="my-5"
                 expanded={expanded === item?.panel}
                 onChange={handleChange(item?.panel)}
@@ -142,9 +143,15 @@ const DashboardDrawer = (props) => {
 
           <div className="flex justify-between w-full">
             <div className="flex justify-end w-full">
-              <Button>Home</Button>
-              <Button>My Jobs</Button>
-              <Avatar alt="Profile Avatar" src={""} className="ml-6" />
+              <Link to="/dashboard">
+                <Button>Home</Button>
+              </Link>
+              <Link to="/my-jobs">
+                <Button>My Jobs</Button>
+              </Link>
+              <Link to="/profile-details">
+                <Avatar alt="Profile Avatar" src={""} className="ml-6" />
+              </Link>
             </div>
           </div>
         </Toolbar>

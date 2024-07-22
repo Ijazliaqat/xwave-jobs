@@ -1,22 +1,11 @@
-import {
-  Box,
-  Button,
-  Card,
-  FormControl,
-  Grid,
-  IconButton,
-  InputLabel,
-  OutlinedInput,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Card, Grid, Typography } from "@mui/material";
 import React, { useState } from "react";
-import InputAdornment from "@mui/material/InputAdornment";
-import SearchIcon from "@mui/icons-material/Search";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import { jobsData } from "./helper/data";
+import { jobsData } from "../home/helper/data";
+import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
 
-const HomeJobs = () => {
+const MyJobs = () => {
   const [gridCol, setGridCol] = useState(12);
 
   const jobDetailsHandler = () => {
@@ -24,32 +13,27 @@ const HomeJobs = () => {
   };
   return (
     <Box sx={{ p: 3, mt: 9 }}>
-      <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">
-          Job title, keywords or company
-        </InputLabel>
-        <OutlinedInput
-          size="small"
-          sx={{ width: 600 }}
-          id="outlined-adornment-password"
-          type={"text"}
-          startAdornment={
-            <InputAdornment position="start">
-              <IconButton aria-label="toggle password visibility" edge="start">
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          }
-          label="Job title, keywords or company"
-          endAdornment={
-            <InputAdornment position="">
-              <Button sx={{ backgroundColor: "#1A1B4B" }} variant="contained">
-                Search
-              </Button>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
+      <Box className="flex justify-between my-3">
+        <span className="">My Jobs</span>
+        <div>
+          <Button
+            className="font-bold"
+            sx={{ background: `#1A1B4B`, mr: 1 }}
+            variant="contained"
+            size="small"
+          >
+            Saved
+          </Button>
+          <Button
+            className="font-bold"
+            sx={{ border: ` 1px solid #1A1B4B`, color: "#1A1B4B" }}
+            variant="outlined"
+            size="small"
+          >
+            Applied
+          </Button>
+        </div>
+      </Box>
 
       <Grid container spacing={3}>
         <Grid item md={gridCol}>
@@ -76,7 +60,7 @@ const HomeJobs = () => {
                       variant="outlined"
                       size="small"
                     >
-                      <BookmarkBorderIcon
+                      <BookmarkRemoveIcon
                         sx={{ color: `#1A1B4B` }}
                         fontSize="small"
                       />
@@ -206,4 +190,4 @@ const HomeJobs = () => {
   );
 };
 
-export default HomeJobs;
+export default MyJobs;

@@ -75,4 +75,28 @@ export const sideBar = [
       },
     ],
   },
+  {
+    id: 4,
+    tittle: "Education Level",
+    panel: "panel4",
+    options: [],
+  },
+  {
+    id: 5,
+    tittle: "Posted Date",
+    panel: "panel5",
+    options: [],
+  },
+  {
+    id: 6,
+    tittle: "Salary Range",
+    panel: "panel6",
+    options: [],
+  },
+  {
+    id: 7,
+    tittle: "Experience",
+    panel: "panel7",
+    options: [],
+  },
 ];
