@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   Grid,
   IconButton,
@@ -37,6 +38,7 @@ const SignIn = () => {
     openSnackBar,
     showPassword,
     setShowPassword,
+    isLoading
   } = useSignIn();
 
   const action = (
@@ -53,7 +55,7 @@ const SignIn = () => {
   return (
     <>
       <Box className="px-10 pt-10">
-        <ToastContainer autoClose={8000} />
+        <ToastContainer autoClose={4000} />
         <Grid
           container
           gap={{ xs: 2, sm: 3, md: 4 }}
@@ -167,7 +169,7 @@ const SignIn = () => {
                 </div>
 
                 <Button
-                  disabled={!isDirty}
+                  disabled={!isDirty || isLoading}
                   variant="contained"
                   fullWidth
                   sx={{
@@ -181,7 +183,7 @@ const SignIn = () => {
                   }}
                   type="submit"
                 >
-                  Sign In
+                 {isLoading ? <CircularProgress size='1.5rem' color="inherit" /> : 'Sign In'}
                 </Button>
                 <div className="my-3">
                   <p className="text-sm">

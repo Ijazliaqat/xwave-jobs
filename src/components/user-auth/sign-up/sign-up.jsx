@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   Grid,
   IconButton,
@@ -100,6 +101,9 @@ const SignUp = () => {
         navigate("/");
       }, 2000);
     } catch (err) {
+      toast.error(err?.data?.message, {
+        position: "top-right",
+      });
       console.error("Failed to login:", err);
     }
 
@@ -286,7 +290,7 @@ const SignUp = () => {
                   </FormControl>
                 </div>
                 <Button
-                  disabled={!isDirty}
+                  disabled={!isDirty || isLoading}
                   variant="contained"
                   fullWidth
                   sx={{
@@ -300,7 +304,7 @@ const SignUp = () => {
                   }}
                   type="submit"
                 >
-                  Register
+                  {isLoading ? <CircularProgress size='1.5rem' color="inherit" /> : 'Register'}
                 </Button>
               </form>
               <div className="my-3">

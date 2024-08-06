@@ -58,6 +58,9 @@ const useSignIn = () => {
       }, 1000);
       
     } catch (err) {
+      toast.error(err?.data?.message, {
+        position: "top-right"
+      });
       console.error("Failed to login:", err);
     }
 
@@ -76,6 +79,7 @@ const useSignIn = () => {
     openSnackBar,
     showPassword,
     setShowPassword,
+    isLoading
   };
 };
 
