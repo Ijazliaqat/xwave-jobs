@@ -20,11 +20,11 @@ export const inputBorderDefault = {
       fontSize: "16px",
     },
     "&:hover .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#099309",
+      borderColor: "#08008F",
       borderWidth: "1px",
     },
     "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#099309",
+      borderColor: "#08008F",
       borderWidth: "2px",
     },
   },
@@ -37,7 +37,7 @@ export const inputBorderDefault = {
   },
   
   "& .MuiInputLabel-outlined.Mui-focused": {
-    color: "#099309",
+    color: "#08008F",
     fontWeight: "bold",
   }
   

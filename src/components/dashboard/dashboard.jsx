@@ -143,13 +143,13 @@ const DashboardDrawer = (props) => {
 
           <div className="flex justify-between w-full">
             <div className="flex justify-end w-full">
-              <Link to="/dashboard">
+              <Link to="/user/dashboard">
                 <Button>Home</Button>
               </Link>
-              <Link to="/my-jobs">
+              <Link to="/user/my-jobs">
                 <Button>My Jobs</Button>
               </Link>
-              <Link to="/profile-details">
+              <Link to="/user/profile-details">
                 <Avatar alt="Profile Avatar" src={""} className="ml-6" />
               </Link>
             </div>

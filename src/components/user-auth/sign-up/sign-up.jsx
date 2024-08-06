@@ -8,7 +8,6 @@ import {
   FormControl,
   Grid,
   IconButton,
-  Snackbar,
   TextField,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -25,8 +24,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Logo from "../../../assets/header-logo.svg";
 import { inputBorder, inputBorderDefault } from "./styles/sign-up-style";
 import { v4 as uuidv4 } from "uuid";
+import { useSignupMutation } from "../../../services/api";
+import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const [signup, { isLoading, isError, error }] = useSignupMutation();
+  const navigate = useNavigate();
+
   const signUpSchema = yup
     .object()
     .shape({
@@ -44,16 +49,14 @@ const SignUp = () => {
         .string("Enter your email")
         .email("Invalid email")
         .required("Email is required"),
-      password: yup
+        password: yup
         .string()
-        .required("Password is required")
-        .min(8, "Password must contain at least 8 character")
-        .max(20, "Password should be less then or equal 20 words")
         .matches(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
           "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
         )
-        .matches(/^\S*$/, "White Spaces are not allowed"),
+        // .matches(/^\S*$/, "White Spaces are not allowed")
+        .required("Password is required"),
     })
     .required();
 
@@ -79,12 +82,26 @@ const SignUp = () => {
 
   console.log(randomId, "randomId");
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const credentials = {
+      name: `${data?.firstName} ${data?.lastName}`,
+      email: data?.email,
+      password: data?.password,
+    };
 
-    //  const postData = axios.post(`https://${randomId}.free.beeceptor.com/api/users/`,data)
-    //  .then(resp => console.log(resp)).catch(err=> console.log(err))
-    //  ;
+    try {
+      const user = await signup(credentials).unwrap();
+
+      toast.success("Singup Successfully !", {
+        position: "top-right",
+      });
+
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    } catch (err) {
+      console.error("Failed to login:", err);
+    }
 
     setOpenSnackbar(true);
     if (!errors) {
@@ -106,21 +123,8 @@ const SignUp = () => {
 
   return (
     <>
+      <ToastContainer autoClose={5000} />
       <Box className="px-10 pt-10">
-        <Snackbar
-          open={openSnackBar}
-          action={action}
-          onClose={() => setOpenSnackbar(false)}
-          autoHideDuration={3000}
-          message="Email Registered Successfully"
-          ContentProps={{
-            sx: {
-              background: "#099309",
-            },
-          }}
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        />
-
         <Grid
           container
           gap={{ xs: 2, sm: 3, md: 4 }}
@@ -286,11 +290,12 @@ const SignUp = () => {
                   variant="contained"
                   fullWidth
                   sx={{
-                    backgroundColor: "#099309",
+                    backgroundColor: "#08008F",
                     "&:hover": {
-                      backgroundColor: "#099309",
+                      backgroundColor: "#08008F",
                     },
                     textTransform: "capitalize",
+                    cursor: "pointer",
                     fontWeight: "bold",
                   }}
                   type="submit"

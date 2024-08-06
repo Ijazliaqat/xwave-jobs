@@ -6,9 +6,7 @@ import DashboardDrawer from "../dashboard/dashboard";
 const Layout = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    navigate("/dashboard");
-  }, []);
+ 
 
   return (
     <Box sx={{ paddingLeft: { sm: 0, md: 35 } }}>

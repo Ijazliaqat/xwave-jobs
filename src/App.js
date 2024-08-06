@@ -11,7 +11,15 @@ import SignUp from "./components/user-auth/sign-up/sign-up";
 function App() {
   const appRoutes = createBrowserRouter([
     {
-      path: "/",
+      path:'/',
+      element: <SignIn />
+    },
+    {
+      path:'/sign-up',
+      element: <SignUp />
+    },
+    {
+      path: "user/",
       element: <Layout />,
       // errorElement: <PageNotFound />,
       children: [
@@ -29,14 +37,7 @@ function App() {
         },
       ],
     },
-    {
-      path:'/sign-in',
-      element: <SignIn />
-    },
-    {
-      path:'/sign-up',
-      element: <SignUp />
-    }
+    
   ]);
   return (
     <>
