@@ -43,28 +43,29 @@ const useSignIn = () => {
   });
 
   const onSubmit = async (data) => {
-   
     const credentials = { email: data?.email, password: data?.password };
 
     try {
       const user = await login(credentials).unwrap();
-      localStorage.setItem("token", user.token);
+
+      // Convert the object to a JSON string
+      const userString = JSON.stringify(user);
+      localStorage.setItem("token", userString);
+     
       toast.success("Login Successfully !", {
-        position: "top-right"
+        position: "top-right",
       });
 
       setTimeout(() => {
         navigate("user/dashboard");
       }, 1000);
-      
     } catch (err) {
       toast.error(err?.data?.message, {
-        position: "top-right"
+        position: "top-right",
       });
       console.error("Failed to login:", err);
     }
 
-    
     if (!errors) {
     }
   };
@@ -79,7 +80,7 @@ const useSignIn = () => {
     openSnackBar,
     showPassword,
     setShowPassword,
-    isLoading
+    isLoading,
   };
 };
 

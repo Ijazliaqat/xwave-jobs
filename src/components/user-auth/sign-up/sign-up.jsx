@@ -50,7 +50,7 @@ const SignUp = () => {
         .string("Enter your email")
         .email("Invalid email")
         .required("Email is required"),
-        password: yup
+      password: yup
         .string()
         .matches(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
@@ -88,6 +88,9 @@ const SignUp = () => {
       name: `${data?.firstName} ${data?.lastName}`,
       email: data?.email,
       password: data?.password,
+      wishList: [],
+      myJobs: [],
+      isAdmin: false,
     };
 
     try {
@@ -304,7 +307,11 @@ const SignUp = () => {
                   }}
                   type="submit"
                 >
-                  {isLoading ? <CircularProgress size='1.5rem' color="inherit" /> : 'Register'}
+                  {isLoading ? (
+                    <CircularProgress size="1.5rem" color="inherit" />
+                  ) : (
+                    "Register"
+                  )}
                 </Button>
               </form>
               <div className="my-3">
