@@ -17,6 +17,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import {
+  useAddWishListMutation,
   useAppliedJobMutation,
   useDeleteJobMutation,
   useGetJobByIdQuery,
@@ -47,6 +48,8 @@ const HomeJobs = () => {
   const [deleteJob] = useDeleteJobMutation();
 
   const [appliedJob, { isLoading: isApplied }] = useAppliedJobMutation();
+  const [addWishList, { isLoading: isAddedWishList }] =
+    useAddWishListMutation();
 
   const {
     data: JobById,
@@ -59,6 +62,25 @@ const HomeJobs = () => {
   const jobDetailsHandler = (job) => {
     setId(job?._id);
     setGridCol(6);
+  };
+
+  const wishListHandler = async (id) => {
+    const jobDetails = {
+      userId: user?.id,
+      jobId: id,
+    };
+
+    try {
+      const applied = await addWishList(jobDetails).unwrap();
+
+      toast.success("Job Added Successfully!", {
+        position: "top-right",
+      });
+    } catch (err) {
+      toast.error(err?.data?.message, {
+        position: "top-right",
+      });
+    }
   };
 
   const appliedJobHandler = async (id) => {
@@ -77,10 +99,7 @@ const HomeJobs = () => {
       toast.error(err?.data?.message, {
         position: "top-right",
       });
-      console.error("Failed to login:", err);
     }
-
-    console.log(jobDetails, "jobDetails");
   };
 
   const deleteJobHandler = async (id) => {
@@ -271,6 +290,9 @@ const HomeJobs = () => {
                   sx={{ border: ` 1px solid #1A1B4B`, mx: 1 }}
                   variant="outlined"
                   size="small"
+                  onClick={() => {
+                    wishListHandler(JobById?._id);
+                  }}
                 >
                   <BookmarkBorderIcon
                     sx={{ color: `#1A1B4B` }}
