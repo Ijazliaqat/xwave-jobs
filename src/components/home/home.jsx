@@ -35,7 +35,6 @@ const HomeJobs = () => {
 
   // Convert the JSON string back to an object
   const { user } = JSON.parse(userDetails);
-  console.log(user, "user");
 
   const {
     data: allJobs,
@@ -56,8 +55,6 @@ const HomeJobs = () => {
     error: byIdErr,
     isLoading: byIdLoading,
   } = useGetJobByIdQuery(id);
-
-  console.log(JobById, "byIdJob");
 
   const jobDetailsHandler = (job) => {
     setId(job?._id);
@@ -213,7 +210,9 @@ const HomeJobs = () => {
                               />
                             </Button>
                           )}
+
                           <Button
+                            disabled={user?.isAdmin}
                             sx={{ border: ` 1px solid #1A1B4B` }}
                             variant="outlined"
                             size="small"
@@ -280,6 +279,7 @@ const HomeJobs = () => {
               </Box>
               <Box className="flex justify-end my-3">
                 <Button
+                  disabled={user?.isAdmin}
                   sx={{ border: ` 1px solid #1A1B4B` }}
                   variant="outlined"
                   size="small"
@@ -287,6 +287,7 @@ const HomeJobs = () => {
                   <ThumbDownIcon sx={{ color: `#1A1B4B` }} fontSize="small" />
                 </Button>
                 <Button
+                  disabled={user?.isAdmin}
                   sx={{ border: ` 1px solid #1A1B4B`, mx: 1 }}
                   variant="outlined"
                   size="small"
@@ -300,6 +301,7 @@ const HomeJobs = () => {
                   />
                 </Button>
                 <Button
+                  disabled={user?.isAdmin}
                   sx={{ background: `#1A1B4B` }}
                   variant="contained"
                   size="small"
