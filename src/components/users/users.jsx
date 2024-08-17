@@ -17,10 +17,18 @@ const Users = () => {
     const value = event?.target?.value.toLowerCase();
     setSearchText(value);
 
+    const filterData = userList?.users?.map((user) => ({
+      id: user?._id,
+      name: user?.name,
+      email: user?.email,
+      myJobsLength: user?.myJobs?.length,
+    }));
+
     // Filter rows based on search input
-    const filteredRows = userList?.users?.filter((row) =>
-      row?.name?.toLowerCase().includes(value)
+    const filteredRows = filterData?.filter((row) =>
+      row?.name?.toLowerCase()?.includes(value)
     );
+    
     setRows(filteredRows);
   };
 
