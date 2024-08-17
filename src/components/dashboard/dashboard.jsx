@@ -39,9 +39,14 @@ const DashboardDrawer = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState("home");
 
   const [expanded, setExpanded] = useState("");
+
+  const userDetails = localStorage.getItem("token");
+
+  // Convert the JSON string back to an object
+  const { user } = JSON.parse(userDetails);
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -60,10 +65,6 @@ const DashboardDrawer = (props) => {
     if (!isClosing) {
       setMobileOpen(!mobileOpen);
     }
-  };
-
-  const handleListItemClick = (index) => {
-    setActiveIndex(index);
   };
 
   const drawer = (
@@ -144,11 +145,66 @@ const DashboardDrawer = (props) => {
           <div className="flex justify-between w-full">
             <div className="flex justify-end w-full">
               <Link to="/user/dashboard">
-                <Button>Home</Button>
+                <Button
+                  sx={
+                    activeIndex === "home" && {
+                      backgroundColor: "#08008F",
+                      "&:hover": {
+                        backgroundColor: "#08008F",
+                      },
+                      textTransform: "capitalize",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      color: "#fff",
+                    }
+                  }
+                  onClick={() => {
+                    setActiveIndex("home");
+                  }}
+                >
+                  Home
+                </Button>
               </Link>
               <Link to="/user/my-jobs">
-                <Button>My Jobs</Button>
+                <Button
+                  sx={
+                    activeIndex === "jobs" && {
+                      backgroundColor: "#08008F",
+                      "&:hover": {
+                        backgroundColor: "#08008F",
+                      },
+                      textTransform: "capitalize",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      color: "#fff",
+                    }
+                  }
+                  onClick={() => {
+                    setActiveIndex("jobs");
+                  }}
+                >
+                  My Jobs
+                </Button>
               </Link>
+              {user?.isAdmin && (
+                <Link to="/user/list">
+                  <Button  sx={
+                    activeIndex === "users" && {
+                      backgroundColor: "#08008F",
+                      "&:hover": {
+                        backgroundColor: "#08008F",
+                      },
+                      textTransform: "capitalize",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      color: "#fff",
+                    }
+                  }
+                  onClick={() => {
+                    setActiveIndex("users");
+                  }}>Users</Button>
+                </Link>
+              )}
               <Link to="/user/profile-details">
                 <Avatar alt="Profile Avatar" src={""} className="ml-6" />
               </Link>

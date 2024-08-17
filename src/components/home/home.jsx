@@ -133,7 +133,7 @@ const HomeJobs = () => {
     <>
       <ToastContainer autoClose={3000} />
 
-      <Box sx={{ p: 3, mt: 9 }}>
+      <Box sx={{ p: 3, mt: 5 }}>
         <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">
             Job title, keywords or company

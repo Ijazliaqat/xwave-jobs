@@ -1,29 +1,39 @@
 // services/api.js
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const api = createApi({
-  reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://xwave-job-backend.vercel.app' }),
+  reducerPath: "api",
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://xwave-job-backend.vercel.app",
+  }),
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
-        url: '/api/auth/login',
-        method: 'POST',
+        url: "/api/auth/login",
+        method: "POST",
         body: credentials,
       }),
     }),
     signup: builder.mutation({
-        query: (credentials) => ({
-          url: '/api/auth/signup',
-          method: 'POST',
-          body: credentials,
-        }),
+      query: (credentials) => ({
+        url: "/api/auth/signup",
+        method: "POST",
+        body: credentials,
       }),
+    }),
     getUser: builder.query({
       query: (id) => `user/${id}`,
+    }),
+    getUsersList: builder.query({
+      query: () => `/users`,
     }),
   }),
 });
 
-export const { useLoginMutation, useSignupMutation ,useGetUserQuery } = api;
+export const {
+  useLoginMutation,
+  useSignupMutation,
+  useGetUserQuery,
+  useGetUsersListQuery,
+} = api;
 export default api;
