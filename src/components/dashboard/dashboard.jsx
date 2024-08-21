@@ -188,21 +188,49 @@ const DashboardDrawer = (props) => {
               </Link>
               {user?.isAdmin && (
                 <Link to="/user/list">
-                  <Button  sx={
-                    activeIndex === "users" && {
-                      backgroundColor: "#08008F",
-                      "&:hover": {
+                  <Button
+                    sx={
+                      activeIndex === "users" && {
                         backgroundColor: "#08008F",
-                      },
-                      textTransform: "capitalize",
-                      cursor: "pointer",
-                      fontWeight: "bold",
-                      color: "#fff",
+                        "&:hover": {
+                          backgroundColor: "#08008F",
+                        },
+                        textTransform: "capitalize",
+                        cursor: "pointer",
+                        fontWeight: "bold",
+                        color: "#fff",
+                      }
                     }
-                  }
-                  onClick={() => {
-                    setActiveIndex("users");
-                  }}>Users</Button>
+                    onClick={() => {
+                      setActiveIndex("users");
+                    }}
+                  >
+                    Users
+                  </Button>
+                </Link>
+              )}
+
+              {user?.isAdmin && (
+                <Link to="/user/post-job">
+                  <Button
+                    sx={
+                      activeIndex === "post-job" && {
+                        backgroundColor: "#08008F",
+                        "&:hover": {
+                          backgroundColor: "#08008F",
+                        },
+                        textTransform: "capitalize",
+                        cursor: "pointer",
+                        fontWeight: "bold",
+                        color: "#fff",
+                      }
+                    }
+                    onClick={() => {
+                      setActiveIndex("post-job");
+                    }}
+                  >
+                    Post Job
+                  </Button>
                 </Link>
               )}
               <Link to="/user/profile-details">

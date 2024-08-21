@@ -9,7 +9,7 @@ const MyJobs = () => {
   const [toggleBtn, setToggleBtn] = useState("applied");
 
   return (
-    <Box sx={{ p: 3, mt: 9 }}>
+    <Box sx={{ p: 3, mt: 5 }}>
       <Box className="flex justify-between my-3">
         <span className="">
           {toggleBtn === "applied" ? " My Jobs" : "Wish list Jobs"}

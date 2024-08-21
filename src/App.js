@@ -8,6 +8,7 @@ import ProfileDetails from "./components/profile-details/profile-details";
 import SignIn from "./components/user-auth/sign-in/sign-in";
 import SignUp from "./components/user-auth/sign-up/sign-up";
 import Users from "./components/users/users";
+import PostJob from "./components/post-job/post-job";
 
 function App() {
   const appRoutes = createBrowserRouter([
@@ -31,6 +32,10 @@ function App() {
         {
           path: "my-jobs/",
           element: <MyJobs />,
+        },
+        {
+          path: "post-job/",
+          element: <PostJob />,
         },
         {
           path: "profile-details/",
