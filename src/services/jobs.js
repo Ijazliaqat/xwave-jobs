@@ -36,6 +36,13 @@ const jobApi = createApi({
         body: jobDetails,
       }),
     }),
+    jobPost: builder.mutation({
+      query: (job) => ({
+        url: `/api/jobs`,
+        method: "POST",
+        body: job,
+      }),
+    }),
     getWishlistJob: builder.query({
       query: (userId) => `/user/wishlist/${userId}`,
     }),
@@ -49,7 +56,8 @@ export const {
   useAppliedJobMutation,
   useGetAppliedJobQuery,
   useAddWishListMutation,
-  useGetWishlistJobQuery
+  useGetWishlistJobQuery,
+  useJobPostMutation,
 } = jobApi;
 
 export default jobApi;

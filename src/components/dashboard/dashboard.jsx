@@ -122,6 +122,15 @@ const DashboardDrawer = (props) => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
+      <IconButton
+        color="inherit"
+        aria-label="open drawer"
+        edge="start"
+        onClick={handleDrawerToggle}
+        sx={{ ml: 2, display: { xs: "block", md: "none", sm: "block" } }}
+      >
+        <MenuOpenIcon sx={{ color: "#1A1B4B" }} />
+      </IconButton>
       <AppBar
         position="fixed"
         sx={{
@@ -132,25 +141,15 @@ const DashboardDrawer = (props) => {
         }}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
-            <MenuOpenIcon sx={{ color: "#099309" }} />
-          </IconButton>
-
           <div className="flex justify-between w-full">
             <div className="flex justify-end w-full">
               <Link to="/user/dashboard">
                 <Button
                   sx={
                     activeIndex === "home" && {
-                      backgroundColor: "#08008F",
+                      backgroundColor: "#1A1B4B",
                       "&:hover": {
-                        backgroundColor: "#08008F",
+                        backgroundColor: "#1A1B4B",
                       },
                       textTransform: "capitalize",
                       cursor: "pointer",
@@ -169,7 +168,7 @@ const DashboardDrawer = (props) => {
                 <Button
                   sx={
                     activeIndex === "jobs" && {
-                      backgroundColor: "#08008F",
+                      backgroundColor: "#1A1B4B",
                       "&:hover": {
                         backgroundColor: "#08008F",
                       },
@@ -191,9 +190,9 @@ const DashboardDrawer = (props) => {
                   <Button
                     sx={
                       activeIndex === "users" && {
-                        backgroundColor: "#08008F",
+                        backgroundColor: "#1A1B4B",
                         "&:hover": {
-                          backgroundColor: "#08008F",
+                          backgroundColor: "#1A1B4B",
                         },
                         textTransform: "capitalize",
                         cursor: "pointer",
@@ -215,9 +214,9 @@ const DashboardDrawer = (props) => {
                   <Button
                     sx={
                       activeIndex === "post-job" && {
-                        backgroundColor: "#08008F",
+                        backgroundColor: "#1A1B4B",
                         "&:hover": {
-                          backgroundColor: "#08008F",
+                          backgroundColor: "#1A1B4B",
                         },
                         textTransform: "capitalize",
                         cursor: "pointer",
@@ -256,7 +255,8 @@ const DashboardDrawer = (props) => {
             keepMounted: true,
           }}
           sx={{
-            display: { xs: "block", sm: "none" },
+            // display: { xs: "block", sm: "none" },
+            display: { xs: "block", sm: "block", md: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
@@ -269,7 +269,8 @@ const DashboardDrawer = (props) => {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: "none", sm: "block" },
+            // display: { xs: "none", sm: "block" },
+            display: { xs: "none", sm: "none", md: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
