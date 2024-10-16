@@ -28,6 +28,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useSignupMutation } from "../../../services/api";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import login from "../../../assets/Login/image.png"
 
 const SignUp = () => {
   const [signup, { isLoading, isError, error }] = useSignupMutation();
@@ -131,16 +132,19 @@ const SignUp = () => {
   return (
     <>
       <ToastContainer autoClose={5000} />
-      <Box className="px-10 pt-10">
+      <Box className=" flex items-center" style={{height:"100vh"}}>
         <Grid
           container
-          gap={{ xs: 2, sm: 3, md: 4 }}
+          gap={{ xs: 2, sm: 3, md: 2 }}
           className="flex items-center justify-center"
         >
-          <Grid item xs={12} md={5.7} lg={4} className="lg:order-2 order-1">
+          <Grid item xs={12} md={5.8} lg={4} className="lg:order-2 order-1">
+            <img src={login} alt="login image" />
+          </Grid>
+          <Grid item xs={12} md={5.8} lg={4} className="lg:order-2 order-1">
             <div className="text-center">
               <div className="flex justify-center">
-                <img src={Logo} alt="" />
+                <img className="w-56" src={Logo} alt="" />
               </div>
 
               <form

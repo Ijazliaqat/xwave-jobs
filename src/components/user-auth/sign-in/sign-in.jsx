@@ -26,6 +26,7 @@ import { inputBorder, inputBorderDefault } from "./styles/sign-in-style";
 import useSignIn from "./useSignIn";
 import Logo from "../../../assets/header-logo.svg";
 import { ToastContainer } from "react-toastify";
+import login from "../../../assets/Login/image.png"
 
 const SignIn = () => {
   const {
@@ -54,13 +55,16 @@ const SignIn = () => {
 
   return (
     <>
-      <Box className="px-10 pt-10">
+      <Box className=" flex items-center" style={{height:"100vh"}}>
         <ToastContainer autoClose={4000} />
         <Grid
           container
           gap={{ xs: 2, sm: 3, md: 4 }}
-          className="flex justify-center"
+          className="flex items-center justify-center"
         >
+           <Grid item xs={12} md={5.8} lg={4} className="lg:order-2 order-1">
+            <img src={login} alt="login image" />
+          </Grid>
           <Grid
             item
             xs={12}
