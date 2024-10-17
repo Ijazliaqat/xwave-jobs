@@ -17,10 +17,6 @@ function App() {
       element: <SignIn />
     },
     {
-      path:'/sign-up',
-      element: <SignUp />
-    },
-    {
       path: "user/",
       element: <Layout />,
       // errorElement: <PageNotFound />,
@@ -44,6 +40,10 @@ function App() {
         {
           path: "list/",
           element: <Users />,
+        },
+        {
+          path:'sign-up/',
+          element: <SignUp />
         },
       ],
     },

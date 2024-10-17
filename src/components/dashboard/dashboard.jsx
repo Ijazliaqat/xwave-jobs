@@ -232,6 +232,29 @@ const DashboardDrawer = (props) => {
                   </Button>
                 </Link>
               )}
+              {user?.isAdmin && (
+                <Link to="/user/sign-up">
+                  <Button
+                    sx={
+                      activeIndex === "create-user" && {
+                        backgroundColor: "#1A1B4B",
+                        "&:hover": {
+                          backgroundColor: "#1A1B4B",
+                        },
+                        textTransform: "capitalize",
+                        cursor: "pointer",
+                        fontWeight: "bold",
+                        color: "#fff",
+                      }
+                    }
+                    onClick={() => {
+                      setActiveIndex("create-user");
+                    }}
+                  >
+                    Create User
+                  </Button>
+                </Link>
+              )}
               <Link to="/user/profile-details">
                 <Avatar alt="Profile Avatar" src={""} className="ml-6" />
               </Link>

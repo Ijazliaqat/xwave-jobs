@@ -28,11 +28,15 @@ import { v4 as uuidv4 } from "uuid";
 import { useSignupMutation } from "../../../services/api";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import login from "../../../assets/Login/image.png"
+import login from "../../../assets/Login/image.png";
 
 const SignUp = () => {
   const [signup, { isLoading, isError, error }] = useSignupMutation();
   const navigate = useNavigate();
+
+  const user = localStorage.getItem("token");
+  const userDetails = JSON.parse(user);
+  console.log(userDetails, "userdetails");
 
   const signUpSchema = yup
     .object()
@@ -132,28 +136,24 @@ const SignUp = () => {
   return (
     <>
       <ToastContainer autoClose={5000} />
-      <Box className=" flex items-center" style={{height:"100vh"}}>
+      <Box className=" flex items-center" style={{ height: "100vh" }}>
         <Grid
           container
           gap={{ xs: 2, sm: 3, md: 2 }}
           className="flex items-center justify-center"
         >
-          <Grid item xs={12} md={5.8} lg={4} className="lg:order-2 order-1">
+          {/* <Grid item xs={12} md={5.8} lg={4} className="lg:order-2 order-1">
             <img src={login} alt="login image" />
-          </Grid>
-          <Grid item xs={12} md={5.8} lg={4} className="lg:order-2 order-1">
+          </Grid> */}
+          <Grid item xs={8} className="lg:order-2 order-1">
             <div className="text-center">
-              <div className="flex justify-center">
-                <img className="w-56" src={Logo} alt="" />
-              </div>
-
               <form
                 onSubmit={handleSubmit((data) => {
                   onSubmit(data);
                 })}
               >
-                <div className="flex mt-10">
-                  <div>
+                <Grid container spacing={3}>
+                  <Grid item xs={6}>
                     <FormControl fullWidth>
                       <Controller
                         name="firstName"
@@ -161,6 +161,7 @@ const SignUp = () => {
                         render={({ field: { value, onChange } }) => {
                           return (
                             <TextField
+                            fullWidth
                               label="First Name"
                               placeholder="First Name"
                               size="small"
@@ -179,8 +180,8 @@ const SignUp = () => {
                         {errors?.firstName?.message}
                       </div>
                     </FormControl>
-                  </div>
-                  <div className="ml-2">
+                  </Grid>
+                  <Grid item xs={6}>
                     <FormControl fullWidth>
                       <Controller
                         name="lastName"
@@ -206,8 +207,8 @@ const SignUp = () => {
                         {errors?.lastName?.message}
                       </div>
                     </FormControl>
-                  </div>
-                </div>
+                  </Grid>
+                </Grid>
 
                 <div>
                   <FormControl fullWidth>
@@ -314,18 +315,10 @@ const SignUp = () => {
                   {isLoading ? (
                     <CircularProgress size="1.5rem" color="inherit" />
                   ) : (
-                    "Register"
+                    "Create User"
                   )}
                 </Button>
               </form>
-              <div className="my-3">
-                <p className="text-xs">
-                  By continuing, you agree to our
-                  <span className="text-green ml-1">
-                    Terms of Service
-                  </span> & <span className="text-green">Privacy Policy</span>
-                </p>
-              </div>
             </div>
           </Grid>
         </Grid>

@@ -26,7 +26,7 @@ import { inputBorder, inputBorderDefault } from "./styles/sign-in-style";
 import useSignIn from "./useSignIn";
 import Logo from "../../../assets/header-logo.svg";
 import { ToastContainer } from "react-toastify";
-import login from "../../../assets/Login/image.png"
+import login from "../../../assets/Login/image.png";
 
 const SignIn = () => {
   const {
@@ -39,7 +39,7 @@ const SignIn = () => {
     openSnackBar,
     showPassword,
     setShowPassword,
-    isLoading
+    isLoading,
   } = useSignIn();
 
   const action = (
@@ -55,14 +55,14 @@ const SignIn = () => {
 
   return (
     <>
-      <Box className=" flex items-center" style={{height:"100vh"}}>
+      <Box className=" flex items-center" style={{ height: "100vh" }}>
         <ToastContainer autoClose={4000} />
         <Grid
           container
           gap={{ xs: 2, sm: 3, md: 4 }}
           className="flex items-center justify-center"
         >
-           <Grid item xs={12} md={5.8} lg={4} className="lg:order-2 order-1">
+          <Grid item xs={12} md={5.8} lg={4} className="lg:order-2 order-1">
             <img src={login} alt="login image" />
           </Grid>
           <Grid
@@ -187,13 +187,17 @@ const SignIn = () => {
                   }}
                   type="submit"
                 >
-                 {isLoading ? <CircularProgress size='1.5rem' color="inherit" /> : 'Sign In'}
+                  {isLoading ? (
+                    <CircularProgress size="1.5rem" color="inherit" />
+                  ) : (
+                    "Sign In"
+                  )}
                 </Button>
                 <div className="my-3">
                   <p className="text-sm">
                     Don’t have an account?
                     <span className="text-green font-bold cursor-pointer ml-1">
-                      <Link to="/sign-up"> Sign Up </Link>
+                      contact at contact@xwave.pk
                     </span>
                   </p>
                 </div>
