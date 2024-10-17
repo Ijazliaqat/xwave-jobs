@@ -31,7 +31,7 @@ import { useNavigate } from "react-router-dom";
 import login from "../../../assets/Login/image.png";
 
 const SignUp = () => {
-  const [signup, { isLoading, isError, error }] = useSignupMutation();
+  const [signup,{ isLoading, isError, error }] = useSignupMutation();
   const navigate = useNavigate();
 
   const user = localStorage.getItem("token");
@@ -69,6 +69,7 @@ const SignUp = () => {
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors, isDirty },
   } = useForm({
     resolver: yupResolver(signUpSchema),
@@ -101,13 +102,10 @@ const SignUp = () => {
     try {
       const user = await signup(credentials).unwrap();
 
-      toast.success("Singup Successfully !", {
+      toast.success("User Created Successfully!", {
         position: "top-right",
       });
-
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
+      reset();
     } catch (err) {
       toast.error(err?.data?.message, {
         position: "top-right",
@@ -119,8 +117,6 @@ const SignUp = () => {
     if (!errors) {
     }
   };
-
-  console.log(errors, "errors");
 
   const action = (
     <IconButton
