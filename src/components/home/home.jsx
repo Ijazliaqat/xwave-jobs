@@ -211,11 +211,16 @@ const HomeJobs = () => {
                             </Button>
                           )}
 
+{/* OnClick triggered in this button which  Prevents the description from opening and Calls wishlist handler only */}
                           <Button
                             disabled={user?.isAdmin}
                             sx={{ border: ` 1px solid #1A1B4B` }}
                             variant="outlined"
                             size="small"
+                            onClick={(e) => {
+                              e.stopPropagation(); 
+                              wishListHandler(job?._id); 
+                            }}
                           >
                             <BookmarkBorderIcon
                               sx={{ color: `#1A1B4B` }}
