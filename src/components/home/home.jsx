@@ -31,6 +31,10 @@ const HomeJobs = () => {
   const [gridCol, setGridCol] = useState(12);
   const [id, setId] = useState("");
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredJobs, setFilteredJobs] = useState([]);
+  const [showAllJobs, setShowAllJobs] = useState(true);
+
   const userDetails = localStorage.getItem("token");
 
   // Convert the JSON string back to an object
@@ -45,7 +49,6 @@ const HomeJobs = () => {
   } = useGetJobsQuery();
 
   const [deleteJob] = useDeleteJobMutation();
-
   const [appliedJob, { isLoading: isApplied }] = useAppliedJobMutation();
   const [addWishList, { isLoading: isAddedWishList }] =
     useAddWishListMutation();
@@ -129,6 +132,24 @@ const HomeJobs = () => {
   useEffect(() => {
     refetch();
   }, [id]);
+
+   // Handle search functionality when the search button is clicked
+   const handleSearchClick = () => {
+    setShowAllJobs(false);
+    const filtered = allJobs?.filter((job) =>
+      job?.title?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredJobs(filtered);
+  };
+
+  // Show all jobs by default before search is triggered
+  useEffect(() => {
+    if (allJobs && showAllJobs) {
+      setFilteredJobs(allJobs);
+    }
+  }, [allJobs, showAllJobs]);
+
+  
   return (
     <>
       <ToastContainer autoClose={3000} />
@@ -143,6 +164,10 @@ const HomeJobs = () => {
             sx={{ width: 600 }}
             id="outlined-adornment-password"
             type={"text"}
+
+            value={searchQuery} // Add this line
+            onChange={(e) => setSearchQuery(e.target.value)} // Update the search query as user types
+
             startAdornment={
               <InputAdornment position="start">
                 <IconButton
@@ -156,7 +181,7 @@ const HomeJobs = () => {
             label="Job title, keywords or company"
             endAdornment={
               <InputAdornment position="">
-                <Button sx={{ backgroundColor: "#1A1B4B" }} variant="contained">
+                <Button sx={{ backgroundColor: "#1A1B4B", marginRight: "-11px" }} variant="contained"  onClick={handleSearchClick}>
                   Search
                 </Button>
               </InputAdornment>
@@ -166,69 +191,36 @@ const HomeJobs = () => {
 
         <Grid container spacing={3}>
           {!allJobsLoading ? (
-            <Grid item md={gridCol}>
-              {allJobs?.map((job) => {
-                return (
-                  <>
-                    <Card
-                      className="p-3 mb-4 cursor-pointer"
-                      key={job?.id}
-                      onClick={() => {
-                        jobDetailsHandler(job);
-                      }}
-                    >
-                      <Box className="flex justify-between">
-                        <Typography variant="h6">{job?.title}</Typography>
-                        <Typography variant="body1">{job?.type}</Typography>
-                      </Box>
-                      <Typography variant="body2">{job?.company}</Typography>
-                      <hr className="my-2" />
-                      <Typography variant="h6">Job Description</Typography>
-                      <Typography variant="body2">
-                        {job?.description}
-                      </Typography>
-                      <Box className="flex justify-between my-3">
-                        <span className="">
-                          {moment(job?.datePosted).format("MMMM Do YYYY")}
-                        </span>
-                        <div>
-                          {user?.isAdmin && (
-                            <Button
-                              sx={{
-                                border: ` 1px solid #1A1B4B`,
-                                marginRight: 2,
-                              }}
-                              variant="outlined"
-                              size="small"
-                              onClick={() => {
-                                deleteJobHandler(job?._id);
-                              }}
-                            >
-                              <DeleteForeverIcon
-                                sx={{ color: `#ff2144` }}
-                                fontSize="small"
-                              />
-                            </Button>
-                          )}
-
-                          <Button
-                            disabled={user?.isAdmin}
-                            sx={{ border: ` 1px solid #1A1B4B` }}
-                            variant="outlined"
-                            size="small"
-                          >
-                            <BookmarkBorderIcon
-                              sx={{ color: `#1A1B4B` }}
-                              fontSize="small"
-                            />
-                          </Button>
-                        </div>
-                      </Box>
-                    </Card>
-                  </>
-                );
-              })}
-            </Grid>
+           <Grid item md={gridCol}>
+           {filteredJobs?.length ? (
+             filteredJobs?.map((job) => (
+               <Card
+                 className="p-3 mb-4 cursor-pointer"
+                 key={job?.id}
+                 onClick={() => {
+                   jobDetailsHandler(job);
+                 }}
+               >
+                 <Box className="flex justify-between">
+                   <Typography variant="h6">{job?.title}</Typography>
+                   <Typography variant="body1">{job?.type}</Typography>
+                 </Box>
+                 <Typography variant="body2">{job?.company}</Typography>
+                 <hr className="my-2" />
+                 <Typography variant="h6">Job Description</Typography>
+                 <Typography variant="body2">{job?.description}</Typography>
+                 <Box className="flex justify-between my-3">
+                   <span className="">
+                     {moment(job?.datePosted).format("MMMM Do YYYY")}
+                   </span>
+                 </Box>
+               </Card>
+             ))
+           ) : (
+             <Typography variant="h6">No matching jobs found.</Typography>
+           )}
+         </Grid>
+         
           ) : (
             <Grid item md={gridCol}>
               <Box mt={10} sx={{ display: "flex", justifyContent: "center" }}>
