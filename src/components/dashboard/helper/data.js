@@ -95,7 +95,7 @@ export const sideBar = [
   },
   {
     id: 7,
-    tittle: "Experience",
+    tittle: "Experience Level",
     panel: "panel7",
     options: [],
   },

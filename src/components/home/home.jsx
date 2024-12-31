@@ -134,17 +134,19 @@ const HomeJobs = () => {
       <ToastContainer autoClose={3000} />
 
       <Box sx={{ p: 3, mt: 5 }}>
-        <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
+        <FormControl sx={{width: { xs: "85vw", sm: "90vw",md:"50vw" ,lg:"50vw"}, m: 1,}} variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">
             Job title, keywords or company
           </InputLabel>
           <OutlinedInput
+
             size="small"
-            sx={{ width: 600 }}
+            // aligned the button by giving the pr :0  and also handle the responsiveness
+            sx={{  pr: 0 ,width:"100%"}}
             id="outlined-adornment-password"
             type={"text"}
             startAdornment={
-              <InputAdornment position="start">
+              <InputAdornment position="">
                 <IconButton
                   aria-label="toggle password visibility"
                   edge="start"
@@ -156,7 +158,7 @@ const HomeJobs = () => {
             label="Job title, keywords or company"
             endAdornment={
               <InputAdornment position="">
-                <Button sx={{ backgroundColor: "#1A1B4B" }} variant="contained">
+                <Button sx={{ backgroundColor: "#1A1B4B", width: { xs: "100px", sm: "120px" } }} variant="contained">
                   Search
                 </Button>
               </InputAdornment>
@@ -170,15 +172,24 @@ const HomeJobs = () => {
               {allJobs?.map((job) => {
                 return (
                   <>
-                    <Card
-                      className="p-3 mb-4 cursor-pointer"
+                    <Card 
+                      className="p-3 m-1 mb-4 cursor-pointer"
                       key={job?.id}
                       onClick={() => {
                         jobDetailsHandler(job);
                       }}
+                      // i have given the 50% width and   flexshrink
+                      sx={{
+                        width: { xs: "100%", sm: "100%", md: "100%" ,lg:"37vw" },
+                        flexShrink: 0,
+                        minWidth: { xs: "300px", md: "400px", lg: "40vh" }
+                      }}
                     >
-                      <Box className="flex justify-between">
-                        <Typography variant="h6">{job?.title}</Typography>
+                      <Box  className="flex justify-between">
+                        <Box sx={{ width: "100%" }} className="flex justify-between">
+                          <Typography sx={{ fontSize: "18px" }} variant="h6">{job?.title}</Typography>
+                          <Typography sx={{ fontSize: "14px" }} variant="h6">Karachi(Remote)</Typography>
+                        </Box>
                         <Typography variant="body1">{job?.type}</Typography>
                       </Box>
                       <Typography variant="body2">{job?.company}</Typography>
@@ -211,15 +222,15 @@ const HomeJobs = () => {
                             </Button>
                           )}
 
-{/* OnClick triggered in this button which  Prevents the description from opening and Calls wishlist handler only */}
+                          {/* OnClick triggered in this button which  Prevents the description from opening and Calls wishlist handler only */}
                           <Button
                             disabled={user?.isAdmin}
                             sx={{ border: ` 1px solid #1A1B4B` }}
                             variant="outlined"
                             size="small"
                             onClick={(e) => {
-                              e.stopPropagation(); 
-                              wishListHandler(job?._id); 
+                              e.stopPropagation();
+                              wishListHandler(job?._id);
                             }}
                           >
                             <BookmarkBorderIcon
@@ -248,7 +259,7 @@ const HomeJobs = () => {
             mt={3}
             ml={1}
           >
-            <Card className="p-3 mb-4">
+            <Card className="p-3 mb-4 m-2">
               <Typography className="font-bold" variant="h6">
                 {JobById?.title}
               </Typography>
@@ -369,3 +380,7 @@ const HomeJobs = () => {
 };
 
 export default HomeJobs;
+
+
+
+

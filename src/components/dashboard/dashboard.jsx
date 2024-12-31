@@ -70,11 +70,14 @@ const DashboardDrawer = (props) => {
   const drawer = (
     <div class={"p-2"}>
       <img src={HeaderLogo} alt="xWave Logo" />
-
+<Box className="p-2" >
+<Typography variant="body1">Filters</Typography>
+</Box>
       <div className="mt-4">
         {sideBar?.map((item) => {
           return (
             <>
+            
               <Accordion
                 sx={{ boxShadow: "none", border: "1px solid #E6E6E6" }}
                 className="my-5"
@@ -91,8 +94,8 @@ const DashboardDrawer = (props) => {
                   }
                   aria-controls="panel1d-content"
                   id="panel1d-header"
-                >
-                  <Typography>{item?.tittle} </Typography>
+                >    
+                  <Typography sx={{fontWeight:"600"}}>{item?.tittle} </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <FormGroup>
@@ -120,14 +123,20 @@ const DashboardDrawer = (props) => {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
+    // added z-index or position for better visiblity in mobiles
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <IconButton
+      <IconButton 
         color="inherit"
         aria-label="open drawer"
         edge="start"
         onClick={handleDrawerToggle}
-        sx={{ ml: 2, display: { xs: "block", md: "none", sm: "block" } }}
+        sx={{ ml: 2, display: { xs: "block", md: "none", sm: "block"}, zIndex: 1201,  position: "fixed",
+        color: {
+          xs: "red",
+          sm: "inherit", 
+        },
+      }}
       >
         <MenuOpenIcon sx={{ color: "#1A1B4B" }} />
       </IconButton>
@@ -279,7 +288,8 @@ const DashboardDrawer = (props) => {
           }}
           sx={{
             // display: { xs: "block", sm: "none" },
-            display: { xs: "block", sm: "block", md: "block" },
+            // just change the md:"none " from block 
+            display: { xs: "block", sm: "block", md: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
