@@ -103,7 +103,7 @@ const DashboardDrawer = (props) => {
                       return (
                         <>
                           <FormControlLabel
-                            control={<Checkbox checked={option?.checkBox} />}
+                            control={<Checkbox/>}
                             label={option?.value}
                           />
                         </>
