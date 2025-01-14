@@ -31,6 +31,10 @@ const HomeJobs = () => {
   const [gridCol, setGridCol] = useState(12);
   const [id, setId] = useState("");
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredJobs, setFilteredJobs] = useState([]);
+  const [showAllJobs, setShowAllJobs] = useState(true);
+
   const userDetails = localStorage.getItem("token");
 
   // Convert the JSON string back to an object
@@ -45,7 +49,6 @@ const HomeJobs = () => {
   } = useGetJobsQuery();
 
   const [deleteJob] = useDeleteJobMutation();
-
   const [appliedJob, { isLoading: isApplied }] = useAppliedJobMutation();
   const [addWishList, { isLoading: isAddedWishList }] =
     useAddWishListMutation();
@@ -129,6 +132,24 @@ const HomeJobs = () => {
   useEffect(() => {
     refetch();
   }, [id]);
+
+   // Handle search functionality when the search button is clicked
+   const handleSearchClick = () => {
+    setShowAllJobs(false);
+    const filtered = allJobs?.filter((job) =>
+      job?.title?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredJobs(filtered);
+  };
+
+  // Show all jobs by default before search is triggered
+  useEffect(() => {
+    if (allJobs && showAllJobs) {
+      setFilteredJobs(allJobs);
+    }
+  }, [allJobs, showAllJobs]);
+
+  
   return (
     <>
       <ToastContainer autoClose={3000} />
@@ -145,6 +166,10 @@ const HomeJobs = () => {
             sx={{  pr: 0 ,width:"100%"}}
             id="outlined-adornment-password"
             type={"text"}
+
+            value={searchQuery} // Add this line
+            onChange={(e) => setSearchQuery(e.target.value)} // Update the search query as user types
+
             startAdornment={
               <InputAdornment position="">
                 <IconButton
