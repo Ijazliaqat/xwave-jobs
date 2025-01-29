@@ -1,73 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
+import { 
+  Avatar, 
+  Box, 
+  Button, 
+  Card, 
+  TextField, 
   Typography,
-  Grid,
-  TextField,
+  InputLabel 
 } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import { Edit } from "@mui/icons-material";
 
 const ProfileDetails = () => {
-  const userDetails = localStorage.getItem("token");
-  const { user } = JSON.parse(userDetails);
-
-  const [name, setName] = useState(user?.name || "");
-  const [lastName, setLastName] = useState(user?.lastName || "");
-  const [email, setEmail] = useState(user?.email || "");
-  const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || "");
-  const [showVerifyButton, setShowVerifyButton] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  console.log(user.name);
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isDirty, isValid },
+  } = useForm({
+    mode: "onChange"
+  });
 
-  useEffect(() => {
-    setValue("firstName", user?.name);
-    setValue("lastName", user?.lastName);
-    setValue("email", user?.email);
-    setValue("phoneNumber", user?.phoneNumber);
-  }, [userDetails]);
+  const userDetails = localStorage.getItem("token");
+  const { user } = userDetails ? JSON.parse(userDetails) : { user: {} };
+
+  const [firstName, setFirstName] = useState(user?.firstName || '');
+  const [lastName, setLastName] = useState(user?.lastName || '');
+  const [email, setEmail] = useState(user?.email || '');
+
+  const getInitials = (name) => {
+    if (!name) return '';
+    const names = name.split(' ');
+    return names.map(n => n[0]).join('').toUpperCase();
+  };
+
+  const fullName = `${firstName} ${lastName}`.trim();
 
   const onSubmit = (data) => {
-    setName(data.firstName);
+    setFirstName(data.firstName);
     setLastName(data.lastName);
     setEmail(data.email);
-    setPhoneNumber(data.phoneNumber);
-
-    localStorage.setItem(
-      "token",
-      JSON.stringify({
-        user: {
-          name: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          phoneNumber: data.phoneNumber,
-        },
-      })
-    );
-    setIsEditing(false);
-    toast.success("Profile updated successfully!", {
-      position: "top-right",
-    });
-
-    setShowVerifyButton(true);
-  };
-  const editProfile = () => {
-    setIsEditing(true);
-    setShowVerifyButton(false);
-  }
-  const handleVerifyClick = () => {
-    toast.info("Verification code sent to your phone number", {
+    toast.success("Profile Updated Successfully!", {
       position: "top-right",
     });
   };
@@ -75,213 +50,306 @@ const ProfileDetails = () => {
   return (
     <>
       <ToastContainer autoClose={3000} />
+      <Box sx={{ width: "100%", bgcolor: "#F8F8F8", minHeight: "100vh" }}>
+      
+        <Box sx={{ 
+          p: 2, 
+          display: "flex", 
+          justifyContent: "space-between", 
+          alignItems: "center",
+          borderBottom: "1px solid #E0E0E0"
+        }}>
+          <Typography 
+            component="h1" 
+            sx={{ 
+              fontSize: "24px", 
+              fontWeight: "bold",
+              color: "#6941C6"
+            }}
+          >
+            Wave
+          </Typography>
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <Button sx={{ color: "#000" }}>Home</Button>
+            <Button sx={{ color: "#000" }}>My Jobs</Button>
+          </Box>
+        </Box>
 
-      <Box sx={{ p: 3, mt: 9 }}>
-        <Card
-          sx={{
-            background: "#EAF4FE",
-            padding: "20px",
+        {/* Profile Content */}
+        <Box sx={{ maxWidth: "900px", mx: "auto", mt: 4 }}>
+          <Card sx={{ 
+            bgcolor: "#F0F9FF",
+            p: "24px 48px",
+            borderRadius: "8px",
+            mb: 4,
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
-            borderRadius: "10px",
-          }}
-        >
-          <Avatar
-            sx={{
-              height: 80,
-              width: 80,
-              backgroundColor: "#1A1B4B",
-              color: "#FFFFFF",
-              fontSize: "32px",
-            }}
-          >
-            {name.charAt(0)}
-            {lastName.charAt(0)}
-          </Avatar>
-          <Box sx={{ textAlign: "left", flex: 1, marginLeft: "20px" }}>
-            <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-              {name} {lastName}
-            </Typography>
-            <Typography variant="body1" color="textSecondary">
-              {email}
-            </Typography>
-          </Box>
-        </Card>
-
-        <Card
-          sx={{
-            padding: "30px",
-            marginTop: "20px",
-            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            borderRadius: "10px",
-          }}
-        >
-          <Typography
-            variant="h6"
-            gutterBottom
-            sx={{
-              fontWeight: "bold",
-              marginBottom: "20px",
-              textAlign: "left",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
+            gap: 3
+          }}>
+            <Avatar 
+              sx={{ 
+                bgcolor: "#1B224B", 
+                width: 80, 
+                height: 80,
+                fontSize: "28px",
+                fontWeight: "500"
               }}
             >
-              Edit Profile
-              <button
-                onClick={() => editProfile()}
-                style={{ marginLeft: "15px" }}
-              >
-                <Edit sx={{ color: "black", fontSize: "20px" }} />
-              </button>
+              {getInitials(fullName) || 'U'}
+            </Avatar>
+            <Box>
+              <Typography variant="h6" sx={{ fontWeight: "500", fontSize: "20px" }}>
+                {fullName || "User"}
+              </Typography>
+              <Typography variant="body2" sx={{ color: "#475467", fontSize: "16px" }}>
+                {email || "No email provided"}
+              </Typography>
             </Box>
-          </Typography>
+          </Card>
 
+          <Box sx={{ 
+            maxWidth: "700px", 
+            mx: "auto",
+            bgcolor: "white", 
+            p: "32px 48px", 
+            borderRadius: "8px" 
+          }}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 4 }}>
+                <Typography sx={{ fontSize: "16px", fontWeight: "500", color: "#101828" }}>
+                  Edit Profile
+                </Typography>
+                <EditIcon sx={{ fontSize: 18, color: "#344054" }} />
+              </Box>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="First Name"
-                  variant="outlined"
-                  fullWidth
-                  disabled={!isEditing}
-                  sx={{
-                    borderRadius: "10px",
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "10px",
-                    },
-                  }}
-                  {...register("firstName", {
-                    required: "First Name is required",
-                  })}
-                  error={!!errors.firstName}
-                  helperText={errors.firstName ? errors.firstName.message : ""}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Last Name"
-                  variant="outlined"
-                  fullWidth
-                  disabled={!isEditing}
-                  sx={{
-                    borderRadius: "10px",
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "10px",
-                    },
-                  }}
-                  {...register("lastName", {
-                    required: "Last Name is required",
-                  })}
-                  error={!!errors.lastName}
-                  helperText={errors.lastName ? errors.lastName.message : ""}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  label="Email"
-                  variant="outlined"
-                  fullWidth
-                  disabled={!isEditing}
-                  sx={{
-                    borderRadius: "10px",
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "10px",
-                    },
-                  }}
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                      message: "Enter a valid email",
-                    },
-                  })}
-                  error={!!errors.email}
-                  helperText={errors.email ? errors.email.message : ""}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  <TextField
-                    label="Phone Number"
-                    variant="outlined"
-                    fullWidth
-                    disabled={!isEditing}
-                    sx={{
-                      borderRadius: "10px",
-                      "& .MuiOutlinedInput-root": {
-                        borderRadius: "10px",
-                      },
-                    }}
-                    {...register("phoneNumber", {
-                      required: "Phone Number is required",
-                      pattern: {
-                        value: /^[0-9]{10}$/,
-                        message: "Enter a valid phone number",
-                      },
-                    })}
-                    error={!!errors.phoneNumber}
-                    helperText={errors.phoneNumber ? errors.phoneNumber.message : ""}
-                  />
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      color: "#1A1B4B",
-                      borderColor: "#1A1B4B",
-                      padding: "10px 15px",
-                      textTransform: "lowercase",
-                      borderRadius: "10px",
-                      boxShadow: "0 5px 15px rgba(0, 0, 0, 0.1)",
-                      "&:hover": {
-                        backgroundColor: "#EAF4FE",
-                      },
-                    }}
-                    onClick={handleVerifyClick}
-                  >
-                    Verify
-                  </Button>
+              <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 3 }}>
+                <Box>
+                  <Box sx={{ 
+                    position: "relative",
+                    mb: 3
+                  }}>
+                    <Typography 
+                      component="span"
+                      sx={{ 
+                        position: "absolute",
+                        top: -9,
+                        left: 10,
+                        px: 1,
+                        fontSize: "12px", 
+                        color: "#666",
+                        bgcolor: "#fff",
+                        zIndex: 1,
+                      }}
+                    >
+                      First Name
+                    </Typography>
+                    <Box sx={{ 
+                      border: "1px solid #D0D5DD",
+                      borderRadius: "8px",
+                      p: "8px 14px",
+                    }}>
+                      <TextField
+                        fullWidth
+                        variant="standard"
+                        defaultValue={firstName}
+                        InputProps={{
+                          disableUnderline: true,
+                        }}
+                        sx={{ 
+                          "& input": {
+                            p: 0,
+                            fontSize: "14px",
+                            color: "#101828"
+                          }
+                        }}
+                        {...register("firstName")}
+                      />
+                    </Box>
+                  </Box>
                 </Box>
-              </Grid>
-            </Grid>
 
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "center",
-                marginTop: "80px",
-                gap: "15px",
-              }}
-            >
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  backgroundColor: "#1A1B4B",
-                  color: "#FFFFFF",
-                  padding: "10px 25px",
-                  borderRadius: "10px",
-                  textTransform: "uppercase",
-                  boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
-                  "&:hover": {
-                    backgroundColor: "#15203D",
-                  },
-                }}
-              >
-                Save Changes
-              </Button>
-            </Box>
-          </form>
-        </Card>
+                <Box>
+                  <Box sx={{ 
+                    position: "relative",
+                    mb: 3
+                  }}>
+                    <Typography 
+                      component="span"
+                      sx={{ 
+                        position: "absolute",
+                        top: -9,
+                        left: 10,
+                        px: 1,
+                        fontSize: "12px", 
+                        color: "#666",
+                        bgcolor: "#fff",
+                        zIndex: 1,
+                      }}
+                    >
+                      Last Name
+                    </Typography>
+                    <Box sx={{ 
+                      border: "1px solid #D0D5DD",
+                      borderRadius: "8px",
+                      p: "8px 14px",
+                    }}>
+                      <TextField
+                        fullWidth
+                        variant="standard"
+                        defaultValue={lastName}
+                        InputProps={{
+                          disableUnderline: true,
+                        }}
+                        sx={{ 
+                          "& input": {
+                            p: 0,
+                            fontSize: "14px",
+                            color: "#101828"
+                          }
+                        }}
+                        {...register("lastName")}
+                      />
+                    </Box>
+                  </Box>
+                </Box>
+
+                <Box>
+                  <Box sx={{ 
+                    position: "relative",
+                    mb: 3
+                  }}>
+                    <Typography 
+                      component="span"
+                      sx={{ 
+                        position: "absolute",
+                        top: -9,
+                        left: 10,
+                        px: 1,
+                        fontSize: "12px", 
+                        color: "#666",
+                        bgcolor: "#fff",
+                        zIndex: 1,
+                      }}
+                    >
+                      Email address
+                    </Typography>
+                    <Box sx={{ 
+                      border: "1px solid #D0D5DD",
+                      borderRadius: "8px",
+                      p: "8px 14px",
+                    }}>
+                      <TextField
+                        fullWidth
+                        variant="standard"
+                        defaultValue={email}
+                        InputProps={{
+                          disableUnderline: true,
+                        }}
+                        sx={{ 
+                          "& input": {
+                            p: 0,
+                            fontSize: "14px",
+                            color: "#101828"
+                          }
+                        }}
+                        {...register("email")}
+                      />
+                    </Box>
+                  </Box>
+                </Box>
+
+                <Box>
+                  <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
+                    <Box sx={{ flex: 1, position: "relative" }}>
+                      <Typography 
+                        component="span"
+                        sx={{ 
+                          position: "absolute",
+                          top: -9,
+                          left: 10,
+                          px: 1,
+                          fontSize: "12px", 
+                          color: "#666",
+                          bgcolor: "#fff",
+                          zIndex: 1,
+                        }}
+                      >
+                        Phone No
+                      </Typography>
+                      <Box sx={{ 
+                        border: "1px solid #D0D5DD",
+                        borderRadius: "8px",
+                        p: "8px 14px",
+                      }}>
+                        <TextField
+                          fullWidth
+                          variant="standard"
+                          placeholder="Add phone no"
+                          InputProps={{
+                            disableUnderline: true,
+                          }}
+                          sx={{ 
+                            "& input": {
+                              p: 0,
+                              fontSize: "14px",
+                              color: "#101828",
+                              "&::placeholder": {
+                                color: "#667085",
+                                opacity: 1
+                              }
+                            }
+                          }}
+                          {...register("phone")}
+                        />
+                      </Box>
+                    </Box>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        bgcolor: "#F2F4F7",
+                        color: "#344054",
+                        fontSize: "14px",
+                        textTransform: "none",
+                        px: 3,
+                        py: 1,
+                        height: "40px",
+                        marginTop: "4px",
+                        borderRadius: "8px",
+                        boxShadow: "none",
+                        "&:hover": {
+                          bgcolor: "#E4E7EC",
+                          boxShadow: "none"
+                        }
+                      }}
+                    >
+                      Verify
+                    </Button>
+                  </Box>
+                </Box>
+              </Box>
+
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 6 }}>
+                <Button 
+                  type="submit"
+                  sx={{ 
+                    bgcolor: "#E4E7EC",
+                    color: "#344054",
+                    textTransform: "none",
+                    fontSize: "14px",
+                    px: 3,
+                    py: 1,
+                    borderRadius: "8px",
+                    "&:hover": {
+                      bgcolor: "#D3D7DE"
+                    }
+                  }}
+                >
+                  Save Changes
+                </Button>
+              </Box>
+            </form>
+          </Box>
+        </Box>
       </Box>
     </>
   );

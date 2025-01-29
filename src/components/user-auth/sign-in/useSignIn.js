@@ -46,11 +46,20 @@ const useSignIn = () => {
     const credentials = { email: data?.email, password: data?.password };
 
     try {
-      const user = await login(credentials).unwrap();
+      const response = await login(credentials).unwrap();
+      
+      // Ensure we have the user's details in the expected format
+      const userDetails = {
+        user: {
+          email: response.user?.email,
+          firstName: response.user?.firstName || '',
+          lastName: response.user?.lastName || '',
+          ...response.user
+        }
+      };
 
-      // Convert the object to a JSON string
-      const userString = JSON.stringify(user);
-      localStorage.setItem("token", userString);
+      // Store the complete user details
+      localStorage.setItem("token", JSON.stringify(userDetails));
      
       toast.success("Login Successfully !", {
         position: "top-right",

@@ -1,4 +1,3 @@
-// services/api.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const api = createApi({
@@ -27,6 +26,28 @@ const api = createApi({
     getUsersList: builder.query({
       query: () => `/users`,
     }),
+    // New endpoints for password reset flow
+    forgetPassword: builder.mutation({
+      query: (email) => ({
+        url: "/api/auth/forget-password",
+        method: "POST",
+        body: { email },
+      }),
+    }),
+    verifyOtp: builder.mutation({
+      query: (data) => ({
+        url: "/api/auth/verify-otp",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: (data) => ({
+        url: "/api/auth/reset-password",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -35,5 +56,10 @@ export const {
   useSignupMutation,
   useGetUserQuery,
   useGetUsersListQuery,
+  useForgetPasswordMutation,
+  useVerifyOtpMutation,
+  useResetPasswordMutation,
 } = api;
+
 export default api;
+

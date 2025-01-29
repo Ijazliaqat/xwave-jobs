@@ -30,10 +30,10 @@ export const inputBorderDefault = {
   },
 
   "& .MuiInputLabel-outlined": {
-    // color: "green"
+   
   },
   "&:hover .MuiInputLabel-outlined": {
-    // color: "red"
+    
   },
   
   "& .MuiInputLabel-outlined.Mui-focused": {
@@ -41,7 +41,5 @@ export const inputBorderDefault = {
     fontWeight: "bold",
   }
   
-  // "&:hover .MuiOutlinedInput-input": {
-  //   color: "#099309",
-  // },
+
 };
